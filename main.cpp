@@ -11,7 +11,7 @@ int main() {
 
     cout << "Hello world!" << endl;
     cout << "How are you?" << endl;
-    cout << "   (I'm fine)." << endl;
+    cout << "   (I'm fine).";
 
     return 0;
 }
