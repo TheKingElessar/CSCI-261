@@ -1,3 +1,5 @@
 # `// I cannot feel my teeth`
 
-Keep track of all my CSCI 261 labs.
+---
+
+This repo is for me to keep track of all of my CSCI-261 labs and assignments. Each one is in a different branch.
