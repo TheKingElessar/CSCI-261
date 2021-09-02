@@ -2,7 +2,7 @@
  *
  * Author: Nathan Panzer
  *
- * copy and pasting some words i guess
+ * This lab teaches you how to create a C++ program from scratch.
  */
 #include "iostream"
 using namespace std;
