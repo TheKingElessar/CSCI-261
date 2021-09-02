@@ -1,4 +1,4 @@
-/* CSCI 261 Assignment 1: Hello World and ASCII Art
+/* CSCI 261 A1: Hello ASCII Art!
  *
  * Author: Nathan Panzer
  * Skip Days Used: 0
@@ -6,16 +6,15 @@
  * Resources used (Office Hours, Tutoring, Other Students, etc & in what capacity):
  *
  *
- * I made ASCII art I suppose
+ *  In this homework assignment, we focus on three of our programming concepts: (1) defining variables, (2) using input, and (3) using output.
  */
 
 #include <iostream>
 
 using namespace std;
 
-int main() {
-
-    //******** INSERT YOUR CODE BELOW HERE ********
+int main()
+{
 
     cout <<
          "                  /////                    \n"
@@ -34,9 +33,28 @@ int main() {
          "                   :;;;:                   \n"
          << endl;
 
-    // todo: insert part about facts
+    int ssn = 0;
+    float milesFromPrison = 0.0;
+    bool convictedOfTreason = false;
 
-    //******** INSERT YOUR CODE ABOVE HERE ********
+    cout << "What's your SSN (digits only)? ";
+    cin >> ssn;
+    cout << "How many miles are you from the nearest prison? ";
+    cin >> milesFromPrison;
+    cout << "Have you ever been convicted of treason (true/false)? ";
+    cin >> convictedOfTreason;
+
+    cout << "Your SSN is " << ssn << "." << endl;
+    cout << "You are " << milesFromPrison << " miles from the nearest prison." << endl;
+
+    if (convictedOfTreason)
+    {
+        cout << "You HAVE been convicted of treason." << endl;
+    }
+    else
+    {
+        cout << "You have NEVER been convicted of treason (yet)." << endl;
+    }
 
     return 0;
 }
