@@ -13,6 +13,8 @@ int main()
 
     char player1Choice = '0';
     cin >> player1Choice;
+
+
     cout << "\nPlayer 1 chooses: " << player1Choice << endl;
 
     srand(time(nullptr));
