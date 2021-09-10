@@ -33,19 +33,32 @@ int main()
         return 1;
     }
 
-    cout << "Player 1 chooses: " << player1Word << "\n" << endl;
+    cout << "\nPlayer 1 chooses: " << player1Word << endl;
 
     srand(time(nullptr));
 
     int randomChoice = rand();
     randomChoice = randomChoice % 3;
 
-    string computerChoice;
-    if (randomChoice == 0) computerChoice = "Rock";
-    if (randomChoice == 1) computerChoice = "Paper";
-    if (randomChoice == 2) computerChoice = "Scissors";
+    string computerWord;
+    if (randomChoice == 0) computerWord = "Rock";
+    if (randomChoice == 1) computerWord = "Paper";
+    if (randomChoice == 2) computerWord = "Scissors";
 
-    cout << "Computer chooses: " << computerChoice << endl;
+    cout << "Computer chooses: " << computerWord << "\n" << endl;
 
-    return 0;
+    if (player1Word == computerWord)
+    {
+        cout << "Both chose " << player1Word << ".\nIt's a tie!" << endl;
+    }
+    else if ((player1Word == "Rock" && computerWord == "Scissors") || (player1Word == "Scissors" && computerWord == "Paper") || (player1Word == "Paper" && computerWord == "Rock"))
+    {
+        cout << player1Word << " beats " << computerWord << ".\nPlayer wins!" << endl;
+    }
+    else if ((computerWord == "Rock" && player1Word == "Scissors") || (computerWord == "Scissors" && player1Word == "Paper") || (computerWord == "Paper" && player1Word == "Rock"))
+    {
+        cout << computerWord << " beats " << player1Word << ".\nComputer wins!" << endl;
+    }
+
+    return 1;
 }
