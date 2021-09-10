@@ -1,4 +1,9 @@
-// I cannot feel my teeth
+/* CSCI 261 Lab 2C: RPS: And The Winner Is
+ *
+ * Author: Nathan Panzer
+ *
+ * In which Spock and a piece of Paper fight to the death
+ */
 
 #include <iostream>
 #include <ctime>
