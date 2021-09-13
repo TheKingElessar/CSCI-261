@@ -1,4 +1,9 @@
-// I cannot feel my teeth
+/* CSCI 261 Lab 2B: RPS: State Your Choice
+ *
+ * Author: Nathan Panzer
+ *
+ * I added if statements that's kinda cool right
+ */
 
 #include <iostream>
 #include <ctime>
