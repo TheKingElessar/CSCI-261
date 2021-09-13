@@ -1,4 +1,9 @@
-// I cannot feel my teeth
+/* CSCI 261 Lab 2A: RPS: Human vs. Computer
+ *
+ * Author: Nathan Panzer
+ *
+ * look mom i can generate random numbers between 0 and 2
+ */
 
 #include <iostream>
 #include <ctime>
