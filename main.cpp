@@ -5,7 +5,7 @@
  * Skip Days Remaining: 5
  * Resources used (Office Hours, Tutoring, Other Students, etc & in what capacity): None
  *
- * XXXXXXXX (MORE_COMPLETE_DESCRIPTION_HERE)
+ * First you get the numbers then you get the bounds then you classify it and get a random value that's pretty neat
  */
 
 #include <iostream>
@@ -64,17 +64,25 @@ int main()
     cin >> temperature;
     cout << "\n";
 
+    srand(time(nullptr));
+    float scaledRandom = static_cast<float>(rand());
+    scaledRandom = scaledRandom / RAND_MAX;
+
+    float exampleTemp;
     if (temperature >= (lower - TOLERANCE) && temperature <= bound1)
     {
         cout << temperature << " is a Low temperature." << endl;
+        exampleTemp = (bound1 - lower) * scaledRandom + lower;
     }
     else if (temperature >= bound1 && temperature <= bound2)
     {
         cout << temperature << " is a Medium temperature." << endl;
+        exampleTemp = (bound2 - bound1) * scaledRandom + bound1;
     }
     else if (temperature >= bound2 && temperature <= (upper + TOLERANCE))
     {
         cout << temperature << " is a High temperature." << endl;
+        exampleTemp = (upper - bound2) * scaledRandom + bound2;
     }
     else
     {
@@ -82,13 +90,8 @@ int main()
         return 0;
     }
 
-    srand(time(nullptr));
-    float randomFloat = static_cast<float>(rand());
-
-    float upperScale = upper * 100;
-    float lowerScale = lower * 100;
-
-    float remainder = randomFloat % (upperScale - lowerScale);
+    exampleTemp = round(exampleTemp * 100) / 100;
+    cout << "\nYou could also use " << exampleTemp << " as a temperature." << endl;
 
     return 0;
 }
