@@ -5,7 +5,7 @@
  * Skip Days Remaining: 5
  * Resources used (Office Hours, Tutoring, Other Students, etc & in what capacity): None
  *
- * First you get the numbers then you get the bounds then you classify it and get a random value
+ * First you get the numbers then you get the bounds then you classify it then you get a random value
  */
 
 #include <iostream>
