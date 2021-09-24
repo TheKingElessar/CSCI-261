@@ -1,8 +1,8 @@
-/* CSCI 261 Lab 3C: Pretty Math Solver
+/* CSCI 261 Lab 3B: Math Worksheet Solver
  *
  * Author: Nathan Panzer
  *
- * Make the output look pretty :)))
+ * The focus of this assignment is on one concept: how to read data from an "input file stream" or ifstream object.
  */
 
 #include <fstream>

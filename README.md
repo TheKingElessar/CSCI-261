@@ -1,1 +1,1 @@
-# ur gonna actually make me google these manipulators huh
+# wait c++ is unironically smart when reading input streams?
