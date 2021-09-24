@@ -1,13 +1,14 @@
-/* CSCI 261 Lab 3B: Math Worksheet Solver
+/* CSCI 261 Lab 3C: Pretty Math Solver
  *
  * Author: Nathan Panzer
  *
- * The focus of this assignment is on one concept: how to read data from an "input file stream" or ifstream object.
+ * making the math problems look pretty :)))))
  */
 
 #include <fstream>
 #include <iostream>
 #include <ctime>
+#include <iomanip>
 
 using namespace std;
 
@@ -17,8 +18,8 @@ const string FILE_NAME = "mathWorksheet.txt";
 
 int main()
 {
-//    int fail = makeFile();
-//    if (fail == -1) return -1;
+    int fail = makeFile();
+    if (fail == -1) return -1;
 
     ifstream inputFile(FILE_NAME);
     if (inputFile.fail())
@@ -59,7 +60,12 @@ int main()
         return -1;
     }
 
-    cout << num1 << " " << mathOp << " " << num2 << " = " << answer << endl;
+    cout << right << setprecision(5) << setw(11) << num1 << endl;
+    cout << left << setprecision(5) << setw(11) << mathOp << right << num2 << endl;
+    cout << "=" << endl;
+    cout << answer << endl;
+
+//    cout << num1 << " " << mathOp << " " << num2 << " = " << answer << endl;
 
     return 0;
 }
