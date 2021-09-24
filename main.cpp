@@ -1,4 +1,9 @@
-// I cannot feel my teeth
+/* CSCI 261 Lab 00: Name
+ *
+ * Author: Nathan Panzer
+ *
+ * Description
+ */
 
 using namespace std;
 
