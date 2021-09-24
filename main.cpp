@@ -1,8 +1,8 @@
-/* CSCI 261 Lab 00: Name
+/* CSCI 261 Lab 3C: Pretty Math Solver
  *
  * Author: Nathan Panzer
  *
- * Description
+ * Make the output look pretty :)))
  */
 
 #include <fstream>
