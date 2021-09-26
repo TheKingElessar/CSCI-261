@@ -3,6 +3,7 @@
  * Author: Nathan Panzer
  *
  * making the math problems look pretty :)))))
+ * and i did the extra credit fyi
  */
 
 #include <fstream>
@@ -18,8 +19,8 @@ const string FILE_NAME = "mathWorksheet.txt";
 
 int main()
 {
-    int fail = makeFile();
-    if (fail == -1) return -1;
+//    int fail = makeFile();
+//    if (fail == -1) return -1;
 
     ifstream inputFile(FILE_NAME);
     if (inputFile.fail())
@@ -60,12 +61,27 @@ int main()
         return -1;
     }
 
-    cout << right << setprecision(5) << setw(11) << num1 << endl;
-    cout << left << setprecision(5) << setw(11) << mathOp << right << num2 << endl;
-    cout << "=" << endl;
-    cout << answer << endl;
+    cout << setw(11) << right << setprecision(5) << num1 << endl;
+    cout << setw(1) << left << mathOp << setw(10) << right << setprecision(5) << num2 << left << endl;
+    cout.fill('=');
+    cout << setw(11) << "" << endl;
+    cout.fill(' ');
+    cout << right << setw(11) << fixed << setprecision(3) << answer << endl;
 
-//    cout << num1 << " " << mathOp << " " << num2 << " = " << answer << endl;
+    ofstream outputFile("solved_problem.txt");
+    if (outputFile.fail())
+    {
+        cout << "Error opening file " << "solved_problem.txt" << "!" << endl;
+        return -1;
+    }
+
+    outputFile << setw(11) << right << setprecision(5) << num1 << endl;
+    outputFile << setw(1) << left << mathOp << setw(10) << right << setprecision(5) << num2 << left << endl;
+    outputFile.fill('=');
+    outputFile << setw(11) << "" << endl;
+    outputFile.fill(' ');
+    outputFile << right << setw(11) << fixed << setprecision(3) << answer << endl;
+    outputFile.close();
 
     return 0;
 }
