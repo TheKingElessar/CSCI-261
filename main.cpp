@@ -1,8 +1,8 @@
-/* CSCI 261 Lab 00: Name
+/* CSCI 261 Lab 4C: Input Paradigms to Compute Averages
  *
  * Author: Nathan Panzer
  *
- * Description
+ *  In this lab we will work with two common formats of input files
  */
 
 #include <iostream>
