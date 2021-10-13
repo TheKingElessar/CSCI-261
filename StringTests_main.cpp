@@ -1,6 +1,6 @@
 /* CSCI261 Lab: stringTest
  *
- * Author: YOUR NAME
+ * Author: Nathan Panzer
  *
  * This program executes some tests that illustrate the properties
  * and behaviors of strings.
@@ -90,8 +90,6 @@ int stringLength(const string STR)
 char charAt(const string STR, const int IDX)
 {
     char result = '\0';
-    // TODO 01: set result to the character of a string at a given index
-    // variables available: const string STR, const int IDX
     result = STR[IDX];
     return result;
 }
@@ -103,8 +101,6 @@ char charAt(const string STR, const int IDX)
 string stringAppend(const string LEFT, const string RIGHT)
 {
     string result = LEFT;
-    // TODO 02: set result to the concatenation of strings LEFT and RIGHT
-    // variables available: const string LEFT, const string RIGHT
     result = LEFT + RIGHT;
     return result;
 }
@@ -117,8 +113,6 @@ string stringAppend(const string LEFT, const string RIGHT)
 string stringInsert(const string STR, const string TO_INSERT, const int IDX)
 {
     string result = STR;
-    // TODO 03: set result to the result of inserting a string into another
-    // variables available: const string STR, const string TO_INSERT, const int IDX
     result.insert(IDX, TO_INSERT);
     return result;
 }
@@ -130,8 +124,6 @@ string stringInsert(const string STR, const string TO_INSERT, const int IDX)
 int stringFind(const string STR, const char C)
 {
     int result = -1;
-    // TODO 04: set result to the index of the first occurrence of the character
-    // variables available: const string STR, const char C
     result = STR.find_first_of(C);
     return result;
 }
@@ -144,8 +136,6 @@ int stringFind(const string STR, const char C)
 string stringSubstring(const string STR, const int IDX, const int LEN)
 {
     string result = STR;
-    // TODO 05: set result to be a substring starting at index of given length
-    // variables available: const string STR, const int IDX, const int LEN
     result = STR.substr(IDX, LEN);
     return result;
 }
@@ -158,10 +148,14 @@ string stringSubstring(const string STR, const int IDX, const int LEN)
 string stringReplace(const string STR, const string TEXT_TO_REPLACE, const string REPLACE_WITH)
 {
     string result = STR;
-    // TODO 06: set result to be the string with the given text replaced
-    // variables available: const string STR, const string TEXT_TO_REPLACE, const string REPLACE_WITH
-    int location = STR.find(TEXT_TO_REPLACE);
-    result = STR.replace(location, REPLACE_WITH.length(), REPLACE_WITH);
+    int location = result.find(TEXT_TO_REPLACE);
+
+    if (location == string::npos)
+    {
+        return result;
+    }
+
+    result = result.replace(location, TEXT_TO_REPLACE.length(), REPLACE_WITH);
     return result;
 }
 
@@ -171,8 +165,12 @@ string stringReplace(const string STR, const string TEXT_TO_REPLACE, const strin
 string firstWord(const string STR)
 {
     string result = STR;
-    // TODO 07: set result to the first word from the string
-    // variables available: const string STR
+    int spaceLocation = result.find(" ");
+    if (spaceLocation == string::npos)
+    {
+        return result;
+    }
+    result = result.substr(0, spaceLocation);
     return result;
 }
 
@@ -182,8 +180,9 @@ string firstWord(const string STR)
 string removeFirstWord(const string STR)
 {
     string result = STR;
-    // TODO 08: set result to be the string with the first word removed
-    // variables available: const string STR
+    string firstWordFound = firstWord(STR);
+    result = stringReplace(STR, firstWordFound, "");
+    result = result.replace(0, 1, "");
     return result;
 }
 
@@ -193,8 +192,8 @@ string removeFirstWord(const string STR)
 string secondWord(const string STR)
 {
     string result = STR;
-    // TODO 09: set result to be the second word from the string
-    // variables available: const string STR
+    result = removeFirstWord(STR);
+    result = firstWord(result);
     return result;
 }
 
@@ -204,8 +203,10 @@ string secondWord(const string STR)
 string thirdWord(const string STR)
 {
     string result = STR;
-    // TODO 10: set result to be the third word from the string
-    // variables available: const string STR
+    result = removeFirstWord(STR);
+    result = removeFirstWord(result);
+    result = firstWord(result);
+
     return result;
 }
 
@@ -216,8 +217,11 @@ string thirdWord(const string STR)
 string nthWord(const string STR, const int N)
 {
     string result = STR;
-    // TODO 11: set result to be the nth word from the string
-    // variables available: const string STR, const int N
+    for (int i = 1; i < N; i++)
+    {
+        result = removeFirstWord(result);
+    }
+    result = firstWord(result);
     return result;
 }
 
@@ -229,8 +233,14 @@ string nthWord(const string STR, const int N)
 string substitute(const string STR, const char TARGET, const char REPLACEMENT)
 {
     string result = STR;
-    // TODO 12: set result to be the string with all instances of TARGET replaced
-    // variables available: const string STR, const string TARGET, const string REPLACEMENT
+    for (int i = 0; i < STR.length(); i++)
+    {
+        char charAt = result[i];
+        if (charAt == TARGET)
+        {
+            result[i] = REPLACEMENT;
+        }
+    }
     return result;
 }
 
