@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int *sortDiceArray(int dieRolled[]);
+int *sortDiceArray(const int dieRolled[]);
 
 bool isSmallStraight(int die1, int die2, int die3, int die4, int die5);
 
@@ -49,7 +49,7 @@ bool isFours(int die1, int die2, int die3, int die4, int die5)
     return true;
 }
 
-int *sortDiceArray(int dieRolled[5])
+int * sortDiceArray(const int dieRolled[5])
 {
     int arrayCopy[5];
     for (int i = 0; i < 5; i++)
@@ -75,6 +75,11 @@ int *sortDiceArray(int dieRolled[5])
         arrayCopy[smallestIndex] = original;
     }
 
+    for (int i : arrayCopy)
+    {
+        cout << i << endl;
+    }
+
     return arrayCopy;
 }
 
@@ -85,7 +90,30 @@ int scoreFours(int die1, int die2, int die3, int die4, int die5)
 bool isSmallStraight(int die1, int die2, int die3, int die4, int die5)
 {
     int dieRolled[5] = {die1, die2, die3, die4, die5};
-    int *sortedRolls = sortDiceArray(dieRolled);
+    int *sortedRolls[] = sortDiceArray(dieRolled);
+    bool gap = false;
+
+    for (int i = 0; i < 5; i++)
+    {
+        if (i != 0)
+        {
+            if (sortedRolls[i] != sortedRolls[i - 1] + 1)
+            {
+                cout << "Index " << i << " invalid" << endl;
+                gap = true;
+                break;
+            }
+        }
+        if (i != 5)
+        {
+            if (sortedRolls[i] != sortedRolls[i + 1] - 1)
+            {
+                cout << "Index " << i << " invalid" << endl;
+                gap = true;
+                break;
+            }
+        }
+    }
 }
 
 int scoreSmallStraight(int die1, int die2, int die3, int die4, int die5)
