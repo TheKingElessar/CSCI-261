@@ -6,7 +6,6 @@
  */
 
 #include <ctime>
-#include <cstdlib>
 #include <iostream>
 #include <vector>
 
@@ -25,27 +24,6 @@ int scoreFours(int die1, int die2, int die3, int die4, int die5);
 int scoreSmallStraight(int die1, int die2, int die3, int die4, int die5);
 
 const int SMALL_STRAIGHT_SCORE = 30;
-
-int main()
-{
-    int dieRolled[5];
-    srand(time(nullptr));
-    rand();
-
-    for (int i = 0; i < 5; i++)
-    {
-        dieRolled[i] = rand() % 6 + 1;
-        cout << dieRolled[i] << endl;
-    }
-
-    bool rollIsSmallStraight = isSmallStraight(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4]);
-    cout << "Roll is small straight: " << rollIsSmallStraight << endl;
-    cout << "Score: " << scoreSmallStraight(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4]) << endl;
-    bool rollIsFours = isFours(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4]);
-    cout << "Roll is fours: " << rollIsFours << endl;
-    cout << "Score: " << scoreFours(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4]) << endl;
-    return 0;
-}
 
 /*
  * Determine if scoring as fours will award points
@@ -149,49 +127,32 @@ bool isSmallStraight(int die1, int die2, int die3, int die4, int die5)
         return false;
     }
 
-    bool firstInvalid = false;
-    bool lastInvalid = false;
-    bool gap = false;
-    for (int i = 0; i < deDuped.size(); i++)
+    vector<int> gapIndices;
+    int notGap = 0;
+    for (int i = 0; i < deDuped.size() - 1; i++)
     {
-        if (i == 0)
+        if (deDuped.at(i) == deDuped.at(i + 1) - 1)
         {
-            if (deDuped.at(i) != deDuped.at(i + 1) - 1)
-            {
-                firstInvalid = true;
-            }
+//            cout << deDuped.at(i) << " --> " << deDuped.at(i + 1) << endl;
+            notGap++;
         }
-        else if (i != deDuped.size() - 1)
+        else
         {
-            if (i == deDuped.size() - 2 && lastInvalid) continue;
-
-            if (deDuped.at(i) != deDuped.at(i + 1) - 1)
-            {
-                gap = true;
-                break;
-            }
-        }
-
-
-        if (i == deDuped.size() - 1)
-        {
-            if (deDuped.at(i) != deDuped.at(i - 1) + 1)
-            {
-                lastInvalid = true;
-            }
-        }
-        else if (i != 0)
-        {
-            if (i == 1 && firstInvalid) continue;
-
-            if (deDuped.at(i) != deDuped.at(i - 1) + 1)
-            {
-                gap = true;
-                break;
-            }
+            gapIndices.push_back(i);
         }
     }
-    return !gap;
+
+    for (int gapIndex : gapIndices)
+    {
+//        cout << "What? " << gapIndex << endl;
+        if (gapIndex != 0 && gapIndex != 3)
+        {
+//            cout  << "Returning false" << endl;
+            return false;
+        }
+    }
+
+    return notGap >= 3;
 }
 
 /*
@@ -208,3 +169,28 @@ int scoreSmallStraight(int die1, int die2, int die3, int die4, int die5)
         return 0;
     }
 }
+
+/*
+ * Just for testing lol
+ */
+//int main()
+//{
+//    int dieRolled[5];
+//    srand(time(nullptr));
+//    rand();
+//
+//    for (int i = 0; i < 5; i++)
+//    {
+//        dieRolled[i] = rand() % 6 + 1;
+//        cout << dieRolled[i] << endl;
+//    }
+//
+//    bool rollIsSmallStraight = isSmallStraight(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4]);
+//    cout << "Roll is small straight: " << rollIsSmallStraight << endl;
+//    cout << "Score: " << scoreSmallStraight(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4])
+//         << endl;
+//    bool rollIsFours = isFours(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4]);
+//    cout << "Roll is fours: " << rollIsFours << endl;
+//    cout << "Score: " << scoreFours(dieRolled[0], dieRolled[1], dieRolled[2], dieRolled[3], dieRolled[4]) << endl;
+//    return 0;
+//}
