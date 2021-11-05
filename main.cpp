@@ -56,7 +56,7 @@ int main()
             cout << "PBR:" << endl;
             double radius;
             double angle;
-            polarToCartesianPBR(cartesianPoint.x, cartesianPoint.y, radius, angle);
+            cartesianToPolarPBR(cartesianPoint.x, cartesianPoint.y, radius, angle);
             cout << "Radius: " << radius << endl;
             cout << "Angle (theta): " << angle << endl;
 
