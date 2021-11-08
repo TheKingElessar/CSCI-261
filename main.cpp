@@ -63,8 +63,6 @@ int main() {
     removePunctuation(allWords, "?!.,;:\"()_");
     capitalizeWords(allWords);
 
-    // todo: start here
-
     // find only the unique words in the file
     vector<string> uniqueWords = filterUniqueWords(allWords);
     cout << "Encountered " << uniqueWords.size() << " unique words" << endl;

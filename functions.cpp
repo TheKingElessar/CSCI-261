@@ -2,6 +2,7 @@
 #include<string>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -54,7 +55,6 @@ void removePunctuation(vector<string> &allWords, const string &punctuation)
             }
         }
         allWords.at(i) = cleanedWord;
-        cout << "Replaced " << originalWord << " with " << cleanedWord << endl;
     }
 }
 
@@ -71,20 +71,113 @@ void capitalizeWords(vector<string> &allWords)
             capitalWord.at(j) = static_cast<char>(toupper(capitalWord[j]));
         }
         allWords.at(i) = capitalWord;
-        cout << "Replaced " << oldWord << " with " << capitalWord << endl;
     }
 }
 
-vector<string> filterUniqueWords(vector<string>) {}
+vector<string> filterUniqueWords(const vector<string> &allWords)
+{
+    vector<string> uniqueWords;
+    bool flag = false;
+    for (const string &word : allWords)
+    {
+        flag = false;
+        for (const string &uniqueWord : uniqueWords)
+        {
+            if (uniqueWord == word)
+            {
+                flag = true;
+                break;
+            }
+        }
+        if (flag)
+        {
+            continue;
+        }
+        else
+        {
+            uniqueWords.push_back(word);
+        }
+    }
 
-vector<unsigned int> countUniqueWords(vector<string>, vector<string>) {}
+    return uniqueWords;
+}
 
-void sortWordsByCounts(vector<string>, vector<unsigned int>) {}
+vector<unsigned int> countUniqueWords(const vector<string> &allWords, const vector<string> &uniqueWords)
+{
+    vector<unsigned int> uniqueWordCounts;
+    for (const string &uniqueWord : uniqueWords)
+    {
+        unsigned int uniqueWordCount = 0;
+        for (const string &allWord : allWords)
+        {
+            if (allWord == uniqueWord)
+            {
+                uniqueWordCount++;
+            }
+        }
+        uniqueWordCounts.push_back(uniqueWordCount);
+    }
 
-void printWordsAndCounts(vector<string>, vector<unsigned int>) {}
+    return uniqueWordCounts;
+}
 
-void countLetters(vector<string>, unsigned int[26]) {}
+void sortWordsByCounts(vector<string> &uniqueWords, vector<unsigned int> &uniqueWordCounts)
+{
+    for (int i = 0; i < uniqueWords.size(); i++)
+    {
+        string iWord = uniqueWords.at(i);
+        unsigned int iCount = uniqueWordCounts.at(i);
+        for (int j = 0; j < uniqueWords.size(); j++)
+        {
+            string jWord = uniqueWords.at(j);
+            unsigned int jCount = uniqueWordCounts.at(j);
+            if (jCount > iCount)
+            {
+                uniqueWords.at(i) = jWord;
+                uniqueWordCounts.at(i) = jCount;
+                uniqueWords.at(j) = iWord;
+                uniqueWordCounts.at(j) = iCount;
+                // todo: something wrong here
+                cout << "Swapped " << iWord << " with " << jWord << ". " << iCount << " to " << jCount << endl;
+            }
+        }
+    }
 
-void printLetterCounts(unsigned int[26]) {}
+    for (int i = 0; i < uniqueWords.size(); i++)
+    {
+        cout << uniqueWords.at(i) << ": " << uniqueWordCounts.at(i) << endl;
+    }
+}
 
-void printMaxMinLetter(unsigned int[26]) {}
+void printWordsAndCounts(const vector<string> &allWords, const vector<unsigned int> &allCounts)
+{
+    unsigned int largestCount = 0;
+    unsigned int largestWord = 0;
+    for (int i = 0; i < allWords.size(); i++)
+    {
+        if (allWords.at(i).size() > largestWord) largestWord = allWords.at(i).size();
+        if (to_string(allCounts.at(i)).size() > largestCount) largestCount = to_string(allCounts.at(i)).size();
+    }
+
+    for (int i = 0; i < allWords.size(); i++)
+    {
+        cout << setw(to_string(allCounts.size()).size()) << right << i + 1;
+        cout << " : ";
+        cout << setw(largestWord) << left << allWords.at(i);
+        cout << " : ";
+        cout << setw(largestCount) << right << allCounts.at(i);
+        cout << endl;
+    }
+}
+
+void countLetters(vector<string>, unsigned int[26])
+{
+}
+
+void printLetterCounts(unsigned int[26])
+{
+}
+
+void printMaxMinLetter(unsigned int[26])
+{
+}

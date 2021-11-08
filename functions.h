@@ -6,23 +6,24 @@ using namespace std;
 #include<string>
 #include<vector>
 
+// test
 string promptUserForFilename();
 
 bool openFile(ifstream &, const string &);
 
 vector<string> readWordsFromFile(ifstream &);
 
-void removePunctuation(vector<string>&, const string&);
+void removePunctuation(vector<string> &, const string &);
 
-void capitalizeWords(vector<string>&);
+void capitalizeWords(vector<string> &);
 
-vector<string> filterUniqueWords(vector<string>);
+vector<string> filterUniqueWords(const vector<string> &);
 
-vector<unsigned int> countUniqueWords(vector<string>, vector<string>);
+vector<unsigned int> countUniqueWords(const vector<string> &, const vector<string> &);
 
-void sortWordsByCounts(vector<string>, vector<unsigned int>);
+void sortWordsByCounts(vector<string> &, vector<unsigned int> &);
 
-void printWordsAndCounts(vector<string>, vector<unsigned int>);
+void printWordsAndCounts(const vector<string> &, const vector<unsigned int> &);
 
 void countLetters(vector<string>, unsigned int[26]);
 
