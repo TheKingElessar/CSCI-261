@@ -1,1 +1,1 @@
-# no time to play minez :(
+# no time to play minez :( but it was worth it i guess :)

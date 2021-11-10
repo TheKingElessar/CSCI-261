@@ -1,3 +1,13 @@
+/* CSCI 261 Assignment 6: Green Eggs and Ham
+ *
+ * Author: Nathan Panzer
+ * Skip Days Used: 0
+ * Skip Days Remaining: 5
+ * Resources used (Office Hours, Tutoring, Other Students, etc & in what capacity): None
+ *
+ * In this homework, we will focus on arrays, vectors, strings, File I/O, and Functions!
+ */
+
 #include "functions.h"
 #include<string>
 #include <iostream>

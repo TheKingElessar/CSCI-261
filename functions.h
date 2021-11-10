@@ -1,3 +1,13 @@
+/* CSCI 261 Assignment 6: Green Eggs and Ham
+ *
+ * Author: Nathan Panzer
+ * Skip Days Used: 0
+ * Skip Days Remaining: 5
+ * Resources used (Office Hours, Tutoring, Other Students, etc & in what capacity): None
+ *
+ * In this homework, we will focus on arrays, vectors, strings, File I/O, and Functions!
+ */
+
 #ifndef CSCI261_FUNCTIONS_H
 #define CSCI261_FUNCTIONS_H
 
@@ -6,7 +16,6 @@ using namespace std;
 #include<string>
 #include<vector>
 
-// test
 string promptUserForFilename();
 
 bool openFile(ifstream &, const string &);
@@ -33,4 +42,4 @@ void printLetterCounts(const unsigned int[26]);
 
 void printMaxMinLetter(const unsigned int[26]);
 
-#endif //CSCI261_FUNCTIONS_H
+#endif
