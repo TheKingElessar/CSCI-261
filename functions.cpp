@@ -28,11 +28,9 @@ vector<string> readWordsFromFile(ifstream &inputFileStream)
 {
     vector<string> allWords;
     string word;
-    while (!inputFileStream.eof())
+    while (inputFileStream >> word)
     {
-        inputFileStream >> word;
         allWords.push_back(word);
-        cout << word << endl;
     }
 
     return allWords;
@@ -125,27 +123,37 @@ void sortWordsByCounts(vector<string> &uniqueWords, vector<unsigned int> &unique
 {
     for (int i = 0; i < uniqueWords.size(); i++)
     {
-        string iWord = uniqueWords.at(i);
-        unsigned int iCount = uniqueWordCounts.at(i);
-        for (int j = 0; j < uniqueWords.size(); j++)
+        string oldWord = uniqueWords.at(i);
+        unsigned int oldCount = uniqueWordCounts.at(i);
+
+        int largestIndex = i;
+        unsigned int largestCount = uniqueWordCounts.at(largestIndex);
+        for (int j = i + 1; j < uniqueWords.size(); j++)
         {
-            string jWord = uniqueWords.at(j);
-            unsigned int jCount = uniqueWordCounts.at(j);
-            if (jCount > iCount)
+            if (uniqueWordCounts.at(j) > largestCount)
             {
-                uniqueWords.at(i) = jWord;
-                uniqueWordCounts.at(i) = jCount;
-                uniqueWords.at(j) = iWord;
-                uniqueWordCounts.at(j) = iCount;
-                // todo: something wrong here
-                cout << "Swapped " << iWord << " with " << jWord << ". " << iCount << " to " << jCount << endl;
+                largestIndex = j;
+                largestCount = uniqueWordCounts.at(j);
+            }
+            else if (uniqueWordCounts.at(j) == largestCount)
+            {
+                if (uniqueWords.at(j) < uniqueWords.at(largestIndex))
+                {
+                    largestIndex = j;
+                    largestCount = uniqueWordCounts.at(j);
+                }
             }
         }
-    }
 
-    for (int i = 0; i < uniqueWords.size(); i++)
-    {
-        cout << uniqueWords.at(i) << ": " << uniqueWordCounts.at(i) << endl;
+        string largestWord = uniqueWords.at(largestIndex);
+
+        if (largestIndex != i)
+        {
+            uniqueWords.at(i) = largestWord;
+            uniqueWordCounts.at(i) = largestCount;
+            uniqueWords.at(largestIndex) = oldWord;
+            uniqueWordCounts.at(largestIndex) = oldCount;
+        }
     }
 }
 
@@ -159,6 +167,7 @@ void printWordsAndCounts(const vector<string> &allWords, const vector<unsigned i
         if (to_string(allCounts.at(i)).size() > largestCount) largestCount = to_string(allCounts.at(i)).size();
     }
 
+    cout << endl << "Word Counts" << endl;
     for (int i = 0; i < allWords.size(); i++)
     {
         cout << setw(to_string(allCounts.size()).size()) << right << i + 1;
@@ -170,14 +179,56 @@ void printWordsAndCounts(const vector<string> &allWords, const vector<unsigned i
     }
 }
 
-void countLetters(vector<string>, unsigned int[26])
+void countLetters(const vector<string> &allWords, unsigned int letterCounts[26])
 {
+    for (const string &word : allWords)
+    {
+        for (const char letter : word)
+        {
+            letterCounts[letter - 'A']++;
+        }
+    }
 }
 
-void printLetterCounts(unsigned int[26])
+void printLetterCounts(const unsigned int letterCounts[26])
 {
+    unsigned int largestCount = 0;
+    for (int i = 0; i < 26; i++)
+    {
+        if (to_string(letterCounts[i]).size() > largestCount) largestCount = to_string(letterCounts[i]).size();
+    }
+
+    cout << endl << "Letter Counts" << endl;
+    for (int i = 0; i < 26; i++)
+    {
+        cout << (char) (i + 'A');
+        cout << " : ";
+        cout << setw(largestCount) << right << letterCounts[i];
+        cout << endl;
+    }
 }
 
-void printMaxMinLetter(unsigned int[26])
+void printMaxMinLetter(const unsigned int letterCounts[26])
 {
+    unsigned int sum = 0;
+
+    int leastFrequentIndex = 0;
+    int mostFrequentIndex = 0;
+    for (int i = 0; i < 26; i++)
+    {
+        sum += letterCounts[i];
+        if (letterCounts[i] < letterCounts[leastFrequentIndex]) leastFrequentIndex = i;
+        if (letterCounts[i] > letterCounts[mostFrequentIndex]) mostFrequentIndex = i;
+    }
+    double leastFrequentPercent = (letterCounts[leastFrequentIndex] / (double) sum) * 100;
+    double mostFrequentPercent = (letterCounts[mostFrequentIndex] / (double) sum) * 100;
+
+    cout << endl;
+    cout << setw(23) << left << "Least Frequent Letter: " << static_cast<char>(leastFrequentIndex + 'A') << " ("
+         << right << setw(7) << fixed << setprecision(3) << leastFrequentPercent << "%)"
+         << left << endl;
+
+    cout << setw(23) << left << "Most Frequent Letter: " << static_cast<char>(mostFrequentIndex + 'A') << " (" << right
+         << setw(7) << fixed << setprecision(3) << mostFrequentPercent << "%)" << left
+         << endl;
 }

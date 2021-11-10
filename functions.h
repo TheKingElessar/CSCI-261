@@ -25,10 +25,12 @@ void sortWordsByCounts(vector<string> &, vector<unsigned int> &);
 
 void printWordsAndCounts(const vector<string> &, const vector<unsigned int> &);
 
-void countLetters(vector<string>, unsigned int[26]);
+void countLetters(const vector<string> &, const vector<unsigned int> &);
 
-void printLetterCounts(unsigned int[26]);
+void countLetters(const vector<string> &, unsigned int[26]);
 
-void printMaxMinLetter(unsigned int[26]);
+void printLetterCounts(const unsigned int[26]);
+
+void printMaxMinLetter(const unsigned int[26]);
 
 #endif //CSCI261_FUNCTIONS_H
