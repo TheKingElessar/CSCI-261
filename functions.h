@@ -34,8 +34,6 @@ void sortWordsByCounts(vector<string> &, vector<unsigned int> &);
 
 void printWordsAndCounts(const vector<string> &, const vector<unsigned int> &);
 
-void countLetters(const vector<string> &, const vector<unsigned int> &);
-
 void countLetters(const vector<string> &, unsigned int[26]);
 
 void printLetterCounts(const unsigned int[26]);
