@@ -35,6 +35,8 @@ public:
     double getHealth() const;
 
     double getPower() const;
+
+    void attack(Godzilla &);
 };
 
 

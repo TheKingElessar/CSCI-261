@@ -36,6 +36,13 @@ int main()
     cout << godzilla.getName() << " (P: " << godzilla.getPower() << ") - H: " << godzilla.getHealth() << endl;
     cout << mechagodzilla.getName() << " (P: " << mechagodzilla.getPower() << ") - H: " << mechagodzilla.getHealth()
          << endl;
+    cout << endl;
+
+    godzilla.attack(mechagodzilla);
+    while (godzilla.getHealth() > 0)
+    {
+        mechagodzilla.attack(godzilla);
+    }
 
     return 0;
 }

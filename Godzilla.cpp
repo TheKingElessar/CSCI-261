@@ -2,6 +2,7 @@
 // Created by nathanpanzer on 11/12/2021.
 //
 
+#include <iostream>
 #include "Godzilla.h"
 
 Godzilla::Godzilla()
@@ -67,4 +68,14 @@ double Godzilla::getHealth() const
 double Godzilla::getPower() const
 {
     return this->power;
+}
+
+void Godzilla::attack(Godzilla &victim)
+{
+    victim.setHealth(victim.getHealth() - this->power);
+    cout << this->name << " attacks " << victim.getName() << endl;
+    if (victim.getHealth() < 0)
+    {
+        cout << victim.getName() << " has been vanquished." << endl;
+    }
 }
