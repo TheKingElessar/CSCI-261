@@ -1,8 +1,8 @@
-/* CSCI 261 Lab 7B: Classes Part I: Godzilla
+/* CSCI 261 Lab 7C: Classes Part II: Godzilla vs Mechagodzilla
  *
  * Author: Nathan Panzer
  *
- * Focus on defining a Godzilla class from scratch.
+ * Focus on expanding the Godzilla class from Lab7B.
  */
 
 #include <iostream>
