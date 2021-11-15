@@ -56,3 +56,5 @@ endmacro()
 
 resource_dirs(bin/)
 data_dirs(data/)
+
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
