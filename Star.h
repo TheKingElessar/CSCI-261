@@ -1,6 +1,7 @@
 #ifndef SFML_TEMPLATE_STAR_H
 #define SFML_TEMPLATE_STAR_H
 
+#include <SFML/Graphics.hpp>
 
 class Star
 {
@@ -23,8 +24,14 @@ public:
 
     void setBrightness(float brightness);
 
+    float getTransformedX(int WIDTH) const;
+
+    float getTransformedY(int HEIGHT) const;
+
+    sf::Color getGrayscaleColor(float BRIGHTEST_STAR);
+
     Star(float x, float y, float brightness);
 };
 
 
-#endif //SFML_TEMPLATE_STAR_H
+#endif

@@ -43,3 +43,19 @@ void Star::setBrightness(float brightness)
 {
     Star::brightness = brightness;
 }
+
+float Star::getTransformedX(int WIDTH) const
+{
+    return (this->x + 1) * WIDTH / 2;
+}
+
+float Star::getTransformedY(int HEIGHT) const
+{
+    return (-this->y + 1) * HEIGHT / 2;
+}
+
+sf::Color Star::getGrayscaleColor(const float BRIGHTEST_STAR)
+{
+    int shadeOfGray = (int) ((255.0 * (BRIGHTEST_STAR - brightness)) / BRIGHTEST_STAR);
+    return sf::Color(shadeOfGray, shadeOfGray, shadeOfGray);
+}

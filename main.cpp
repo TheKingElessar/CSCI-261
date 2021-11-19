@@ -8,28 +8,26 @@
  * Your task for this assignment is to read in a star data file, store the data in a list of objects, make modifications to the data, and then draw a star map.
  */
 
-#include <iostream>                             // for standard input/output
+#include <iostream>
 
-using namespace std;                            // using the standard namespace
+using namespace std;
 
-#include <SFML/Graphics.hpp>                    // include the SFML Graphics Library
+#include <SFML/Graphics.hpp>
 #include <fstream>
-#include <io.h>
 #include "Star.h"
 
-using namespace sf;                             // using the sf namespace
+using namespace sf;
+
+const int WIDTH = 640;
+const int HEIGHT = 640;
 
 int main()
 {
-    // create a RenderWindow object
-    // specify the size to be 640x640
-    // set the title to be "SFML Example Window"
-    RenderWindow window(VideoMode(640, 640), "SFML Example Window");
+    RenderWindow window(VideoMode(WIDTH, HEIGHT), "Stargate");
 
-    //********************************************
-    //  PLACE ANY FILE INPUT PROCESSING BELOW HERE
-    //********************************************
-
+    /*
+     * Open stars file
+     */
     ifstream starsFile;
     starsFile.open("stars.txt");
     if (starsFile.fail())
@@ -38,40 +36,41 @@ int main()
         return -1;
     }
 
-    // todo: clear invalid stars then KEEP GOING
+    /*
+     * Read stars file and create vector of Star objects
+     */
     vector<Star> starVec;
     float inX;
+    float maxBrightness = 0;
     while (starsFile >> inX)
     {
         float inY, inBrightness;
         float skip;
         starsFile >> inY >> skip >> inBrightness >> skip >> skip;
+        if (inBrightness < 0. || inBrightness > 8.) continue;
+        if (inBrightness > maxBrightness) maxBrightness = inBrightness;
+
         Star newStar(inX, inY, inBrightness);
         starVec.push_back(newStar);
     }
 
-    cout << "Read " << starVec.size() << " stars from file" << endl;
-
-    //********************************************
-    //  PLACE ANY FILE INPUT PROCESSING ABOVE HERE
-    //********************************************
-
-    // while our window is open, keep it open
-    // this is our draw loop
     while (window.isOpen())
     {
-        window.clear(Color::Black);           // clear the contents of the old frame
-        // by setting the window to black
+        window.clear(Color::Black);
 
-        //****************************************
-        //  ADD ALL OF OUR DRAWING BELOW HERE
-        //****************************************
+        /*
+         * Draw each star
+         */
+        for (Star star : starVec)
+        {
+            CircleShape starShape;
+            starShape.setRadius(2);
+            starShape.setPosition(Vector2f(star.getTransformedX(WIDTH), star.getTransformedY(HEIGHT)));
+            starShape.setFillColor(star.getGrayscaleColor(maxBrightness));
+            window.draw(starShape);
+        }
 
-        //****************************************
-        //  ADD ALL OF OUR DRAWING ABOVE HERE
-        //****************************************
-
-        window.display();                       // display the window
+        window.display();
 
         //****************************************
         // HANDLE EVENTS BELOW HERE
