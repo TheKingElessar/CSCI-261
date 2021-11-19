@@ -1,43 +1,31 @@
-#include <iostream>                             // for standard input/output
+#include <iostream>
 
-using namespace std;                            // using the standard namespace
+using namespace std;
 
-#include <SFML/Graphics.hpp>                    // include the SFML Graphics Library
+#include <SFML/Graphics.hpp>
 
-using namespace sf;                             // using the sf namespace
+using namespace sf;
 
 int main()
 {
-    // create a RenderWindow object
-    // specify the size to be 640x640
-    // set the title to be "SFML Example Window"
     RenderWindow window(VideoMode(640, 640), "Underwatch");
 
-    //********************************************
-    //  PLACE ANY FILE INPUT PROCESSING BELOW HERE
-    //********************************************
-
-    //********************************************
-    //  PLACE ANY FILE INPUT PROCESSING ABOVE HERE
-    //********************************************
-
-    // while our window is open, keep it open
-    // this is our draw loop
     std::srand(time(nullptr));
     std::rand();
-    int targetX = rand() % 640;
-    int targetY = rand() % 640;
+    int targetX = 320 + rand() % 100;
+    int targetY = 320 + rand() % 100;
     int points = 0;
+
+    Font arialFont;
+    if (!arialFont.loadFromFile("data/arial.ttf"))
+    {
+        return -1;
+    }
 
     while (window.isOpen())
     {
-        window.clear(Color::Black);           // clear the contents of the old frame
-        // by setting the window to black
+        window.clear(Color::Black);
 
-        //****************************************
-        //  ADD ALL OF OUR DRAWING BELOW HERE
-        //****************************************
-// Draw a circle object called targetCircle and color it yellow
         CircleShape targetCircle;
         targetCircle.setPosition(targetX, targetY);
         targetCircle.setRadius(25);
@@ -50,27 +38,22 @@ int main()
         treeTrunk.setSize(Vector2f(25, 150));
         window.draw(treeTrunk);
 
-        Font arialFont;
-        if (!arialFont.loadFromFile("data/arial.ttf"))
-        {
-            return -1;
-        }
+        Text treeLabel;
+        treeLabel.setFont(arialFont);
+        treeLabel.setString("its a FREAKING tree");
+        treeLabel.setPosition(400, 90);
+        treeLabel.setCharacterSize(15);
+        treeLabel.setFillColor(Color::White);
+        window.draw(treeLabel);
 
-        Text label1;
-        label1.setFont(arialFont);
-        label1.setString("its a FREAKING tree");
-        label1.setPosition(400, 90);
-        label1.setCharacterSize(15);
-        label1.setFillColor(Color::White);
-        window.draw(label1);
-
-        Text label2;
-        label2.setFont(arialFont);
-        label2.setString("gonna start packaging a bitcoin miner in my\ncsci261 assignments to take advantage\nof the nice TAs\n\nsorry");
-        label2.setPosition(400, 550);
-        label2.setCharacterSize(10);
-        label2.setFillColor(Color::White);
-        window.draw(label2);
+        Text bitcoinLabel;
+        bitcoinLabel.setFont(arialFont);
+        bitcoinLabel.setString(
+                "gonna start packaging a bitcoin miner in my\ncsci261 assignments to take advantage\nof the nice TAs\n\nsorry");
+        bitcoinLabel.setPosition(400, 550);
+        bitcoinLabel.setCharacterSize(10);
+        bitcoinLabel.setFillColor(Color::White);
+        window.draw(bitcoinLabel);
 
         for (int i = 0; i < 10; i++)
         {
@@ -95,14 +78,14 @@ int main()
             newBranch.setRotation(angle);
             window.draw(newBranch);
         }
-// Draw a text object calledlabel
-        Text label;
-        label.setFont(arialFont);
-        label.setString("Click the dumb idiot circle to kill it! :)");
-        label.setPosition(80, 460);
-        label.setCharacterSize(25);
-        label.setFillColor(Color::White);
-        window.draw(label);
+
+        Text gameLabel;
+        gameLabel.setFont(arialFont);
+        gameLabel.setString("Click the dumb idiot circle to kill it! :)");
+        gameLabel.setPosition(80, 460);
+        gameLabel.setCharacterSize(25);
+        gameLabel.setFillColor(Color::White);
+        window.draw(gameLabel);
 
         Text pointsLabel;
         pointsLabel.setFont(arialFont);
@@ -111,15 +94,9 @@ int main()
         pointsLabel.setCharacterSize(25);
         pointsLabel.setFillColor(Color::White);
         window.draw(pointsLabel);
-        //****************************************
-        //  ADD ALL OF OUR DRAWING ABOVE HERE
-        //****************************************
 
-        window.display();                       // display the window
+        window.display();
 
-        //****************************************
-        // HANDLE EVENTS BELOW HERE
-        //****************************************
         Event event;
         while (window.pollEvent(event))
         {      // ask the window if any events occurred
@@ -144,5 +121,5 @@ int main()
         }
     }
 
-    return EXIT_SUCCESS;                        // report our program exited successfully
+    return EXIT_SUCCESS;
 }
