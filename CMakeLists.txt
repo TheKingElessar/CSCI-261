@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(SFML_Template)
+project(project)
 
 include_directories(include)
 link_directories(lib)
@@ -7,8 +7,8 @@ link_directories(lib)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
-add_executable(SFML_Template main.cpp Star.cpp Star.h)
-target_link_libraries(SFML_Template sfml-audio sfml-graphics sfml-system sfml-window sfml-network sfml-main)
+add_executable(project main.cpp)
+target_link_libraries(project sfml-audio sfml-graphics sfml-system sfml-window sfml-network sfml-main)
 
 # Copy single files
 macro(resource_files files)
