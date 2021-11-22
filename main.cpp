@@ -1,8 +1,8 @@
-/* CSCI 261 Lab 00: LabName
+/* CSCI 261 Lab 8A: Bouncing Bubble
  *
  * Author: Nathan Panzer
  *
- * Longer description
+ *  You are going to create a magic bouncing ball to watch as it moves around the screen.
  */
 
 #include <iostream>
@@ -10,24 +10,27 @@
 using namespace std;
 
 #include <SFML/Graphics.hpp>
+#include "Bubble.h"
 
 using namespace sf;
 
 const int WIDTH = 640;
 const int HEIGHT = 640;
-const string WINDOW_NAME = "Window";
+const string WINDOW_NAME = "Bouncing Bubble";
 
 int main()
 {
     RenderWindow window(VideoMode(WIDTH, HEIGHT), WINDOW_NAME);
 
+    Bubble bubble(0.025, 0.05);
+
     while (window.isOpen())
     {
         window.clear(Color::Black);
 
-        /*
-         * Draw objects
-         */
+        bubble.updatePosition();
+        bubble.checkBounds(WIDTH, HEIGHT);
+        window.draw(bubble.getCircleShape());
 
         window.display();
 

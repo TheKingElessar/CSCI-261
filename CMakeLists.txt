@@ -7,7 +7,7 @@ link_directories(lib)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
-add_executable(project main.cpp)
+add_executable(project main.cpp Bubble.cpp Bubble.h)
 target_link_libraries(project sfml-audio sfml-graphics sfml-system sfml-window sfml-network sfml-main)
 
 # Copy single files
