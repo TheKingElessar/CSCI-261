@@ -1,3 +1,10 @@
+/* CSCI 261 Lab 7A: SFML Drawing
+ *
+ * Author: Nathan Panzer
+ *
+ * For this assignment, you have the opportunity to play with the power that SFML (a special framework called Simple and Fast Multimedia Library) offers.
+ */
+
 #include <iostream>
 
 using namespace std;
