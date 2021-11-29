@@ -38,6 +38,10 @@ int main()
          << endl;
     cout << endl;
 
+    godzilla.greet(mechagodzilla);
+    mechagodzilla.greet(godzilla);
+    cout << endl;
+
     godzilla.attack(mechagodzilla);
     while (godzilla.getHealth() > 0)
     {

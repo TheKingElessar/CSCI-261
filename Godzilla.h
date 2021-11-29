@@ -1,7 +1,3 @@
-//
-// Created by nathanpanzer on 11/12/2021.
-//
-
 #ifndef CSCI261_GODZILLA_H
 #define CSCI261_GODZILLA_H
 
@@ -37,6 +33,8 @@ public:
     double getPower() const;
 
     void attack(Godzilla &);
+
+    void greet(Godzilla &) const;
 };
 
 

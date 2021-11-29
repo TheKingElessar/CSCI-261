@@ -1,7 +1,3 @@
-//
-// Created by nathanpanzer on 11/12/2021.
-//
-
 #include <iostream>
 #include "Godzilla.h"
 
@@ -78,4 +74,9 @@ void Godzilla::attack(Godzilla &victim)
     {
         cout << victim.getName() << " has been vanquished." << endl;
     }
+}
+
+void Godzilla::greet(Godzilla &other) const
+{
+    cout << this->getName() << " bows to " << other.getName() << "." << endl;
 }
