@@ -1,8 +1,8 @@
-/* CSCI 261 Lab 7C: Classes Part II: Godzilla vs Mechagodzilla
+/* CSCI 261 Lab 8B: Classes Part III: Cordial Godzilla
  *
  * Author: Nathan Panzer
  *
- * Focus on expanding the Godzilla class from Lab7B.
+ * Focus on expanding the Godzilla class from Lab7C.
  */
 
 #include <iostream>
