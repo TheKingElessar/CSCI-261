@@ -1,8 +1,8 @@
-/* CSCI 261 Lab 00: LabName
+/* CSCI 261 Lab 8C: Calendar Classes
  *
  * Author: Nathan Panzer
  *
- * Longer description
+ * Focus on defining a Date and an Event class from scratch.
  */
 
 using namespace std;
