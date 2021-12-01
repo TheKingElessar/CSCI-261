@@ -19,7 +19,7 @@ public:
 
     Date();
 
-    Date(int, int, int);
+    Date(int year, int month, int day);
 
 private:
 

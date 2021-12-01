@@ -3,4 +3,4 @@ project(CSCI261)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(csci-261 main.cpp Date.h Date.cpp)
+add_executable(csci-261 main.cpp Date.h Date.cpp Event.cpp Event.h)

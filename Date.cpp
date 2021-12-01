@@ -11,6 +11,7 @@ int Date::getYear() const
 void Date::setYear(int year)
 {
     _year = year;
+    validate();
 }
 
 int Date::getMonth() const
@@ -21,6 +22,7 @@ int Date::getMonth() const
 void Date::setMonth(int month)
 {
     _month = month;
+    validate();
 }
 
 int Date::getDay() const
@@ -31,14 +33,15 @@ int Date::getDay() const
 void Date::setDay(int day)
 {
     _day = day;
-
+    validate();
 }
 
 Date::Date(int year, int month, int day)
 {
-    this->setYear(year);
-    this->setMonth(month);
-    this->setDay(day);
+    _year = year;
+    _month = month;
+    _day = day;
+    validate();
 }
 
 Date::Date()
@@ -48,9 +51,9 @@ Date::Date()
 
 void Date::setDefault()
 {
-    this->setYear(1950);
-    this->setMonth(12);
-    this->setDay(30);
+    _year = 1950;
+    _month = 12;
+    _day = 30;
 }
 
 void Date::validate()
@@ -60,14 +63,14 @@ void Date::validate()
         cerr << "Year is less than 0. Setting to default values." << endl;
         this->setDefault();
     }
-    if (_day > Date::MONTH_DAYS[this->getMonth() - 1])
+    if (_day > 31)
     {
-        cerr << "Day greater than " << Date::MONTH_DAYS[this->getMonth() - 1] << ". Setting to default values." << endl;
+        cerr << "Day greater than 31. Setting to default values." << endl;
         this->setDefault();
     }
     if (_day < 1)
     {
-        cerr << "Day is 0 or less. Setting to default values." << endl;
+        cerr << "Day is less than 1. Setting to default values." << endl;
         this->setDefault();
     }
     if (_month > 12)
@@ -77,7 +80,7 @@ void Date::validate()
     }
     if (_month < 1)
     {
-        cerr << "Month is 0 or less. Setting to default values." << endl;
+        cerr << "Month is less than 1. Setting to default values." << endl;
         this->setDefault();
     }
 }
