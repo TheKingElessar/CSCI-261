@@ -75,6 +75,7 @@ float Bubble::getRadius()
 void Bubble::setRadius(float radius)
 {
     this->radius = radius;
+    this->circleShape.setRadius(this->radius);
 }
 
 float Bubble::getXPos()
@@ -85,4 +86,19 @@ float Bubble::getXPos()
 float Bubble::getYPos()
 {
     return this->circleShape.getPosition().y;
+}
+
+void Bubble::setXPos(float x)
+{
+    this->circleShape.setPosition(x, this->circleShape.getPosition().y);
+}
+
+float Bubble::setYPos(float y)
+{
+    this->circleShape.setPosition(this->circleShape.getPosition().x, y);
+}
+
+void Bubble::setColor(Color &color)
+{
+    this->circleShape.setFillColor(color);
 }

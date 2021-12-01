@@ -41,6 +41,12 @@ public:
     void setRadius(float);
 
     void checkBounds(const int WIDTH, const int HEIGHT);
+
+    void setXPos(float x);
+
+    float setYPos(float y);
+
+    void setColor(Color &color);
 };
 
 

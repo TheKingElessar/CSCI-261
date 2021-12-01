@@ -1,8 +1,11 @@
-/* CSCI 261 Lab 8A: Bouncing Bubble
+/* CSCI 261 Assignment 8: Bubble Bobble
  *
  * Author: Nathan Panzer
+ * Skip Days Used: 0
+ * Skip Days Remaining: 5
+ * Resources used (Office Hours, Tutoring, Other Students, etc & in what capacity): None
  *
- *  You are going to create a magic bouncing ball to watch as it moves around the screen.
+ * The purpose of this assignment is to give you practice animating objects and interacting with them.
  */
 
 #include <iostream>
@@ -16,21 +19,46 @@ using namespace sf;
 
 const int WIDTH = 640;
 const int HEIGHT = 640;
-const string WINDOW_NAME = "Bouncing Bubble";
+const string WINDOW_NAME = "Bubble Bobble";
 
 int main()
 {
     RenderWindow window(VideoMode(WIDTH, HEIGHT), WINDOW_NAME);
 
-    Bubble bubble(0.025, 0.05);
+    srand(time(nullptr));
+    rand();
+
+    vector<Bubble> bubbleVector;
+    for (int i = 0; i < 5; i++)
+    {
+        float xDir = (rand() / RAND_MAX) * 2.5;
+        float yDir = (rand() / RAND_MAX) * 2.5;
+        cout << "xDir: " << xDir << endl;
+        int radius = rand() % (50 - 40) + 10;
+        int startX = rand() % (400 - 100) + 100;
+        int startY = rand() % (400 - 100) + 100;
+
+        Bubble bubble(xDir, yDir);
+        bubble.setXPos(startX);
+        bubble.setYPos(startY);
+        bubble.setRadius(radius);
+
+        Color color(rand() % 255, rand() % 255, rand() % 255);
+        bubble.setColor(color);
+
+        bubbleVector.push_back(bubble);
+    }
 
     while (window.isOpen())
     {
         window.clear(Color::Black);
 
-        bubble.updatePosition();
-        bubble.checkBounds(WIDTH, HEIGHT);
-        window.draw(bubble.getCircleShape());
+        for (Bubble bubble : bubbleVector)
+        {
+            bubble.updatePosition();
+            bubble.checkBounds(WIDTH, HEIGHT);
+            window.draw(bubble.getCircleShape());
+        }
 
         window.display();
 
