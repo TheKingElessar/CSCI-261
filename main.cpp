@@ -31,12 +31,11 @@ int main()
     vector<Bubble> bubbleVector;
     for (int i = 0; i < 5; i++)
     {
-        float xDir = (rand() / RAND_MAX) * 2.5;
-        float yDir = (rand() / RAND_MAX) * 2.5;
-        cout << "xDir: " << xDir << endl;
-        int radius = rand() % (50 - 40) + 10;
-        int startX = rand() % (400 - 100) + 100;
-        int startY = rand() % (400 - 100) + 100;
+        float xDir = (static_cast<float>(rand()) / RAND_MAX) * 2.5;
+        float yDir = (static_cast<float>(rand()) / RAND_MAX) * 2.5;
+        float radius = rand() % (50 - 40) + 10;
+        float startX = rand() % (400 - 100) + 100;
+        float startY = rand() % (400 - 100) + 100;
 
         Bubble bubble(xDir, yDir);
         bubble.setXPos(startX);

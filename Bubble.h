@@ -44,7 +44,7 @@ public:
 
     void setXPos(float x);
 
-    float setYPos(float y);
+    void setYPos(float y);
 
     void setColor(Color &color);
 };

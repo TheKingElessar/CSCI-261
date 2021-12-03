@@ -1,10 +1,20 @@
+#include <iostream>
 #include "Bubble.h"
+
+using namespace std;
 
 void Bubble::updatePosition()
 {
-    this->getCircleShape();
-    this->circleShape.setPosition(
-            Vector2f(this->circleShape.getPosition().x + this->xDir, this->circleShape.getPosition().y + this->yDir));
+    /*
+     * Setting pos to explicit numbers works
+     * Setting pos to variables + explicit doesn't work
+     */
+    cout << "Old: " << this->getXPos() << endl;
+    cout << "New: " << this->getXPos() + this->getXDir() << endl;
+    this->setXPos(this->getXPos() + this->getXDir());
+    this->setYPos(this->getYPos() + this->getYDir());
+    float radius = rand() % (50 - 40) + 10;
+    this->circleShape.setRadius(radius);
 }
 
 const CircleShape &Bubble::getCircleShape() const
@@ -93,7 +103,7 @@ void Bubble::setXPos(float x)
     this->circleShape.setPosition(x, this->circleShape.getPosition().y);
 }
 
-float Bubble::setYPos(float y)
+void Bubble::setYPos(float y)
 {
     this->circleShape.setPosition(this->circleShape.getPosition().x, y);
 }
