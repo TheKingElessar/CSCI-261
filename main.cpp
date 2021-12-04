@@ -12,11 +12,11 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <iomanip>
 #include "EventTime.h"
 #include "Person.h"
 #include "AvailableTimeBlock.h"
+#include "Util.h"
+#include <ctime>
 
 using namespace std;
 
@@ -53,6 +53,7 @@ int main()
     {
         cout << " - " << name << endl;
     }
+    cout << endl;
 
     vector<Person> people;
     for (const string &name : personStrings)
@@ -88,29 +89,29 @@ int main()
             /*
              * Parsing times from https://stackoverflow.com/questions/48800745/how-to-convert-date-string-to-time-t
              */
-//            std::istringstream time1(splitLine.at(0) + " " + splitLine.at(1));
-            struct tm ttttt;
-            std::istringstream time1("12/08/21 08:00");
-            time1 >> std::get_time(&ttttt, "%m/%d/%y %H:%M");
-            time_t startTime = mktime(&ttttt);
-            cout << "Start time: " << startTime << endl;
+            string startTimeString = splitLine.at(0) + " " + splitLine.at(1);
+            time_t tStart = stringToTime(startTimeString);
 
-            std::istringstream time2(splitLine.at(0) + " " + splitLine.at(2));
-            time2 >> std::get_time(&ttttt, "%m/%d/%y %H:%M");
-            time_t endTime = mktime(&ttttt);
+            string endTimeString = splitLine.at(0) + " " + splitLine.at(2);
+            time_t tEnd = stringToTime(endTimeString);
 
-            EventTime startEventTime(&newPerson, startTime, false);
-            EventTime endEventTime(&newPerson, endTime, true);
+            EventTime startEventTime(&newPerson, tStart, false);
+            EventTime endEventTime(&newPerson, tEnd, true);
 
             vector<Person *> blockOwners;
             blockOwners.push_back(&newPerson);
             AvailableTimeBlock newTimeBlock(blockOwners, &startEventTime, &endEventTime);
+            time_t time1 = startEventTime.getTime();
+            time_t time2 = endEventTime.getTime();
+            cout << "Starts at " << replaceChar(ctime(&time1), '\n', "") << ". Ends at "
+                 << replaceChar(ctime(&time2), '\n', "") << "." << endl;
 
             newPerson.addTimeBlock(&newTimeBlock);
         }
 
         people.push_back(newPerson);
     }
+    cout << endl;
 
     for (const Person &person : people)
     {
@@ -121,7 +122,10 @@ int main()
             time_t time1 = timeBlock->getStartEvent().getTime();
             time_t time2 = timeBlock->getEndEvent().getTime();
 
-            cout << "Starts at " << ctime(&time1) << ". Ends at " << ctime(&time2) << "." << endl;
+            // todo: this always uses the last time block. are the others deleted??
+
+            cout << "Starts at " << replaceChar(ctime(&time1), '\n', "") << ". Ends at "
+                 << replaceChar(ctime(&time2), '\n', "") << "." << endl;
         }
     }
 
