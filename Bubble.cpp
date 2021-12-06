@@ -3,112 +3,158 @@
 
 using namespace std;
 
-void Bubble::updatePosition()
-{
-    /*
-     * Setting pos to explicit numbers works
-     * Setting pos to variables + explicit doesn't work
-     */
-    cout << "Old: " << this->getXPos() << endl;
-    cout << "New: " << this->getXPos() + this->getXDir() << endl;
-    this->setXPos(this->getXPos() + this->getXDir());
-    this->setYPos(this->getYPos() + this->getYDir());
-    float radius = rand() % (50 - 40) + 10;
-    this->circleShape.setRadius(radius);
-}
+/*********************************
+ *          CONSTRUCTORS         *
+ *********************************/
 
-const CircleShape &Bubble::getCircleShape() const
-{
-    return circleShape;
-}
-
-void Bubble::setCircleShape(const CircleShape &circleShape)
-{
-    Bubble::circleShape = circleShape;
-}
-
-double Bubble::getXDir() const
-{
-    return xDir;
-}
-
-void Bubble::setXDir(double xDir)
-{
-    Bubble::xDir = xDir;
-}
-
-double Bubble::getYDir() const
-{
-    return yDir;
-}
-
-void Bubble::setYDir(double yDir)
-{
-    Bubble::yDir = yDir;
-}
-
+/*
+ * Default constructor used in Lab 8-A
+ */
 Bubble::Bubble()
 {
     this->setXDir(0);
     this->setYDir(0);
-    this->circleShape = CircleShape();
-    this->circleShape.setFillColor(Color::White);
-    this->circleShape.setRadius(20);
+    this->_circleShape = CircleShape();
+    this->_circleShape.setFillColor(Color::White);
+    this->_circleShape.setRadius(20);
 }
 
+/*
+ * Constructor used in Lab 8-A
+ */
 Bubble::Bubble(float xDir, float yDir)
 {
     this->setXDir(xDir);
     this->setYDir(yDir);
-    this->circleShape = CircleShape();
-    this->circleShape.setFillColor(Color::White);
-    this->circleShape.setRadius(20);
+    this->_circleShape = CircleShape();
+    this->_circleShape.setFillColor(Color::White);
+    this->_circleShape.setRadius(20);
 }
 
+/*
+ * This constructor just randomizes everything. I didn't want to mess with the
+ * constructors from the lab where we originally made the Bubble class, so I'm
+ * just using this.
+ */
+Bubble::Bubble(bool)
+{
+    float xDir = (static_cast<float>(rand()) / RAND_MAX) * 2.5;
+    float yDir = (static_cast<float>(rand()) / RAND_MAX) * 2.5;
+    float radius = rand() % (50 - 40) + 10;
+    float startX = rand() % (400 - 100) + 100;
+    float startY = rand() % (400 - 100) + 100;
+
+    this->setXDir(xDir);
+    this->setYDir(yDir);
+    this->_circleShape = CircleShape();
+    this->_circleShape.setFillColor(Color::White);
+    this->_circleShape.setRadius(radius);
+    this->setXPos(startX);
+    this->setYPos(startY);
+
+    Color color(rand() % 255, rand() % 255, rand() % 255);
+    this->setColor(color);
+}
+
+/*********************************
+ *            MOVEMENT           *
+ *********************************/
+
+/*
+ * Check if shape is on the window border, reverse its direction
+ * in the relevant direction.
+ */
 void Bubble::checkBounds(const int WIDTH, const int HEIGHT)
 {
-    if (this->getXPos() + this->circleShape.getRadius() * 2 >= WIDTH || this->getXPos() <= 0.f)
+    if (this->getXPos() + this->_circleShape.getRadius() * 2 >= WIDTH || this->getXPos() <= 0.f)
     {
         this->setXDir(this->getXDir() * -1);
     }
-    if (this->getYPos() + this->circleShape.getRadius() * 2 >= HEIGHT || this->getYPos() <= 0.f)
+    if (this->getYPos() + this->_circleShape.getRadius() * 2 >= HEIGHT || this->getYPos() <= 0.f)
     {
         this->setYDir(this->getYDir() * -1);
     }
 }
 
-float Bubble::getRadius()
+/*
+ * Move shape by the set amount
+ */
+void Bubble::updatePosition()
 {
-    return this->radius;
+    this->setXPos(this->getXPos() + this->getXDir());
+    this->setYPos(this->getYPos() + this->getYDir());
+}
+
+/*********************************
+ *            SETTERS            *
+ *********************************/
+
+void Bubble::setCircleShape(const CircleShape &circleShape)
+{
+    Bubble::_circleShape = circleShape;
+}
+
+void Bubble::setXDir(double xDir)
+{
+    Bubble::_xDir = xDir;
+}
+
+void Bubble::setYDir(double yDir)
+{
+    Bubble::_yDir = yDir;
 }
 
 void Bubble::setRadius(float radius)
 {
-    this->radius = radius;
-    this->circleShape.setRadius(this->radius);
-}
-
-float Bubble::getXPos()
-{
-    return this->circleShape.getPosition().x;
-}
-
-float Bubble::getYPos()
-{
-    return this->circleShape.getPosition().y;
+    this->_radius = radius;
+    this->_circleShape.setRadius(this->_radius);
 }
 
 void Bubble::setXPos(float x)
 {
-    this->circleShape.setPosition(x, this->circleShape.getPosition().y);
+    this->_circleShape.setPosition(x, this->_circleShape.getPosition().y);
 }
 
 void Bubble::setYPos(float y)
 {
-    this->circleShape.setPosition(this->circleShape.getPosition().x, y);
+    this->_circleShape.setPosition(this->_circleShape.getPosition().x, y);
 }
 
 void Bubble::setColor(Color &color)
 {
-    this->circleShape.setFillColor(color);
+    this->_circleShape.setFillColor(color);
+}
+
+/*********************************
+ *            GETTERS            *
+ *********************************/
+
+const CircleShape &Bubble::getCircleShape() const
+{
+    return _circleShape;
+}
+
+double Bubble::getXDir() const
+{
+    return _xDir;
+}
+
+double Bubble::getYDir() const
+{
+    return _yDir;
+}
+
+float Bubble::getRadius()
+{
+    return this->_radius;
+}
+
+float Bubble::getXPos()
+{
+    return this->_circleShape.getPosition().x;
+}
+
+float Bubble::getYPos()
+{
+    return this->_circleShape.getPosition().y;
 }

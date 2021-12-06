@@ -9,44 +9,61 @@ using namespace sf;
 class Bubble
 {
 private:
-    CircleShape circleShape;
-    double xDir = 0;
-    double yDir = 0;
-    float radius = 20;
+    CircleShape _circleShape;
+    double _xDir = 0;
+    double _yDir = 0;
+    float _radius = 20;
 public:
+
+    /*********************************
+     *          CONSTRUCTORS         *
+     *********************************/
     Bubble();
 
     Bubble(float, float);
 
+    explicit Bubble(bool);
+
+    /*********************************
+     *            MOVEMENT           *
+     *********************************/
+    void checkBounds(const int WIDTH, const int HEIGHT);
+
     void updatePosition();
 
-    const CircleShape &getCircleShape() const;
+    /*********************************
+     *            SETTERS            *
+     *********************************/
 
     void setCircleShape(const CircleShape &circleShape);
 
-    double getXDir() const;
-
     void setXDir(double xDir);
-
-    double getYDir() const;
 
     void setYDir(double yDir);
 
-    float getXPos();
-
-    float getYPos();
-
-    float getRadius();
-
     void setRadius(float);
-
-    void checkBounds(const int WIDTH, const int HEIGHT);
 
     void setXPos(float x);
 
     void setYPos(float y);
 
     void setColor(Color &color);
+
+    /*********************************
+     *            GETTERS            *
+     *********************************/
+
+    const CircleShape &getCircleShape() const;
+
+    double getXDir() const;
+
+    double getYDir() const;
+
+    float getXPos();
+
+    float getYPos();
+
+    float getRadius();
 };
 
 
