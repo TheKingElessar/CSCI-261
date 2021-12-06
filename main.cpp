@@ -22,7 +22,7 @@ int main()
 {
     RenderWindow window(VideoMode(WIDTH, HEIGHT), WINDOW_NAME);
 
-    Bubble bubble(0.05, 0.1);
+    Bubble bubble(0.075, 0.15);
 
     while (window.isOpen())
     {
