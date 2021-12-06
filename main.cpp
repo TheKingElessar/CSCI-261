@@ -24,29 +24,32 @@ int main()
 {
     vector<string> personStrings;
 
-    cout << "Enter one name per line, corresponding to the correct files.\nWhen finished, press enter." << endl;
-    while (true)
-    {
-        string input;
-        getline(cin, input);
-        while (cin.fail())
-        {
-            cin.clear();
-            char errInput = cin.get();
-            while (errInput != '\n')
-            {
-                errInput = cin.get();
-            }
-            getline(cin, input);
-        }
+//    cout << "Enter one name per line, corresponding to the correct files.\nWhen finished, press enter." << endl;
+//    while (true)
+//    {
+//        string input;
+//        getline(cin, input);
+//        while (cin.fail())
+//        {
+//            cin.clear();
+//            char errInput = cin.get();
+//            while (errInput != '\n')
+//            {
+//                errInput = cin.get();
+//            }
+//            getline(cin, input);
+//        }
+//
+//        if (input.empty())
+//        {
+//            break;
+//        }
+//
+//        personStrings.push_back(input);
+//    }
 
-        if (input.empty())
-        {
-            break;
-        }
-
-        personStrings.push_back(input);
-    }
+    personStrings.push_back("Nathan Panzer");
+    personStrings.push_back("Mr. Potato Head");
 
     cout << "Entered names: " << endl;
     for (const string &name : personStrings)
@@ -55,12 +58,15 @@ int main()
     }
     cout << endl;
 
-    vector<Person> people;
+    vector<Person *> people;
     vector<AvailableTimeBlock> allTimeBlocks;
     for (const string &name : personStrings)
     {
         vector<AvailableTimeBlock *> personTimeBlocks;
+
+        auto *newPersonPtr = new Person;
         Person newPerson(name, personTimeBlocks);
+        *newPersonPtr = newPerson;
 
         string filePath = "people/" + name + ".txt";
         ifstream nameFile(filePath);
@@ -115,15 +121,15 @@ int main()
              * WHY WHAT DOES THIS MEAAAAAAAAAAAAAAAAAAAAAAAAAAN
              */
             auto *startEventTimePtr = new EventTime;
-            EventTime startEventTime = EventTime(&newPerson, tStart, false);
+            EventTime startEventTime = EventTime(newPersonPtr, tStart, false);
             *startEventTimePtr = startEventTime;
 
             auto *endEventTimePtr = new EventTime;
-            EventTime endEventTime = EventTime(&newPerson, tEnd, true);
+            EventTime endEventTime = EventTime(newPersonPtr, tEnd, true);
             *endEventTimePtr = endEventTime;
 
             vector<Person *> blockOwners;
-            blockOwners.push_back(&newPerson);
+            blockOwners.push_back(newPersonPtr);
 
             auto *newTimeBlockPtr = new AvailableTimeBlock;
             AvailableTimeBlock newTimeBlock = AvailableTimeBlock(blockOwners, startEventTimePtr, endEventTimePtr);
@@ -133,21 +139,15 @@ int main()
             allTimeBlocks.push_back(newTimeBlock);
         }
 
-        people.push_back(newPerson);
+        people.push_back(newPersonPtr);
     }
     cout << endl;
 
-    for (const Person& person : people)
-    {
-        cout << person.getName() << endl;
-    }
-
-    cout << "Blocks length: " << allTimeBlocks.size() << endl;
-    vector<AvailableTimeBlock> validTimeBlocks;
+    vector<AvailableTimeBlock *> validTimeBlocks;
     for (int i = 0; i < allTimeBlocks.size(); i++)
     {
         AvailableTimeBlock timeBlock = allTimeBlocks.at(i);
-        cout << i << ": "<< timeBlock.getOwners().at(0)->getName() << endl;
+
         /*
          * Add all time blocks that overlap this time block.
          */
@@ -159,6 +159,11 @@ int main()
 
             if (timeBlock.doesOverlap(otherTimeBlock))
             {
+                auto startTime = timeBlock.getStartEvent().getTime();
+                auto endTime = timeBlock.getEndEvent().getTime();
+
+                cout << "Overlapping blocks: " << timeBlock.getStartEvent().getID() << " " << ctime(&startTime)
+                     << " and " << otherTimeBlock.getStartEvent().getID() << " " << ctime(&endTime) << endl;
                 overlapTimeBlocks.push_back(otherTimeBlock);
             }
         }
@@ -191,10 +196,6 @@ int main()
             }
         }
 
-        cout << "Owner: " << timeBlock.getOwners().at(0)->getName() << endl;
-        cout << "Overlapping time blocks: " << overlapTimeBlocks.size() << ". People represented: "
-             << overlapPeople.size() << endl;
-
         // If not everyone is represented, move to the next time block.
         if (overlapPeople.size() != people.size())
         {
@@ -208,30 +209,102 @@ int main()
             timeline.push_back(overlapTimeBlock.getEndEvent());
         }
 
-        int earliestIndex = 0;
-        time_t earliestTime = timeline.at(0).getTime();
-        for (int i = 0; i < timeline.size(); i++)
+        for (int p = 0; p < timeline.size() - 1; p++)
         {
-            for (int j = i; j < timeline.size(); j++)
+            int earliestIndex = p;
+            time_t earliestTime = timeline.at(p).getTime();
+            for (int j = p + 1; j < timeline.size(); j++)
             {
                 if (timeline.at(j).getTime() < earliestTime)
                 {
                     earliestIndex = j;
-                    earliestTime = timeline.at(j).getTime();
+                    earliestTime = timeline.at(earliestIndex).getTime();
                 }
             }
 
-            int origIndex = i;
-            EventTime origTime = timeline.at(i);
+            if (earliestIndex == p) continue;
+
+            int origIndex = p;
+            EventTime origTime = timeline.at(p);
 
             timeline.at(origIndex) = timeline.at(earliestIndex);
             timeline.at(earliestIndex) = origTime;
         }
 
-        for (EventTime eventTime : timeline)
+        vector<Person> addedPeople;
+        auto *allStart = new EventTime;
+        vector<EventTime> passedEventTimes;
+        for (EventTime &eventTime : timeline)
         {
-            cout << eventTime.getTime() << endl;
+            if (eventTime.getIsEnding())
+            {
+                bool hasEveryone = true;
+                for (Person *person : people)
+                {
+                    bool inFlag = false;
+                    for (const Person &otherPerson : addedPeople)
+                    {
+                        if (person->getName() == otherPerson.getName())
+                        {
+                            inFlag = true;
+                            break;
+                        }
+                    }
+                    if (inFlag) continue;
+                    else
+                    {
+                        hasEveryone = false;
+                        break;
+                    }
+                }
+
+                if (hasEveryone)
+                {
+                    auto *validBlock = new AvailableTimeBlock;
+                    auto *allEnd = new EventTime;
+                    *allEnd = eventTime;
+                    *validBlock = AvailableTimeBlock(people, allStart, allEnd);
+                    validTimeBlocks.push_back(validBlock);
+                }
+            }
+
+            const Person &person = eventTime.getOwner();
+            addedPeople.push_back(person);
+
+            // Todo: repeated code. Comparing two vectors
+            bool hasEveryone = true;
+            for (Person *person1 : people)
+            {
+                bool inFlag = false;
+                for (const Person &otherPerson : addedPeople)
+                {
+                    if (person1->getName() == otherPerson.getName())
+                    {
+                        inFlag = true;
+                        break;
+                    }
+                }
+                if (inFlag) continue;
+                else
+                {
+                    hasEveryone = false;
+                    break;
+                }
+            }
+
+            if (hasEveryone)
+            {
+                allStart = &eventTime;
+            }
         }
+    }
+
+    for (AvailableTimeBlock *availableTimeBlock : validTimeBlocks)
+    {
+        auto startTime = availableTimeBlock->getStartEvent().getTime();
+        auto endTime = availableTimeBlock->getEndEvent().getTime();
+
+        cout << "Valid block: " << ctime(&startTime) << " to " << ctime(&endTime) << endl;
     }
 
     return 0;
