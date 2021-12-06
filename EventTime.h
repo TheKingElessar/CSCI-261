@@ -20,9 +20,9 @@ private:
     static int getNextID();
 
 public:
-    EventTime(Person *owner, time_t time, bool isEnding);
-
     EventTime();
+
+    EventTime(Person *owner, time_t time, bool isEnding);
 
     int getID() const;
 

@@ -29,7 +29,14 @@ EventTime::EventTime(Person *owner, time_t time, bool isEnding)
     _owner = owner;
     _time = time;
     _isEnding = isEnding;
-    _id = getNextID();
+    if (!isEnding)
+    {
+        _id = EventTime::nextID;
+    }
+    else
+    {
+        _id = EventTime::getNextID();
+    }
 }
 
 int EventTime::getNextID()

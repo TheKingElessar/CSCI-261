@@ -3,9 +3,9 @@
  * Author: Nathan Panzer
  *
  * Have you ever tried to organize a Dungeons and Dragons session with five other people?
- * Everybody has their own busy schedules, so it’s hard to find a _time that works for everyone.
+ * Everybody has their own busy schedules, so it’s hard to find a time that works for everyone.
  * This program will ease those pains by taking everyone’s schedules (in the form of available
- * _time blocks) and automatically finding _time blocks that the most people are available for.
+ * time blocks) and automatically finding time blocks that the most people are available for.
  */
 
 #include <string>
@@ -56,6 +56,7 @@ int main()
     cout << endl;
 
     vector<Person> people;
+    vector<AvailableTimeBlock> allTimeBlocks;
     for (const string &name : personStrings)
     {
         vector<AvailableTimeBlock *> personTimeBlocks;
@@ -75,6 +76,10 @@ int main()
         string readLine;
         while (getline(nameFile, readLine))
         {
+            /*
+             * Parse a line like: 12/08/21 08:00 10:30
+             * into a vector of three strings.
+             */
             vector<string> splitLine;
             while (readLine.find(' ') != string::npos)
             {
@@ -95,37 +100,137 @@ int main()
             string endTimeString = splitLine.at(0) + " " + splitLine.at(2);
             time_t tEnd = stringToTime(endTimeString);
 
-            EventTime startEventTime(&newPerson, tStart, false);
-            EventTime endEventTime(&newPerson, tEnd, true);
+            /*
+             * Allocate memory to store the necessary objects contained in
+             * AvailableTimeBlock, because apparently if you don't do that
+             * they're just deleted/overwritten. Ah, Rosie, I love this language!
+             *
+             * Ignore the cries of the damned below.
+             */
+
+            /*
+             * WHY
+             * WHY MUST YOU TORMENT ME SO
+             * WHY CAN'T THIS BE EASY, LIKE IN JAVA
+             * WHY WHAT DOES THIS MEAAAAAAAAAAAAAAAAAAAAAAAAAAN
+             */
+            auto *startEventTimePtr = new EventTime;
+            EventTime startEventTime = EventTime(&newPerson, tStart, false);
+            *startEventTimePtr = startEventTime;
+
+            auto *endEventTimePtr = new EventTime;
+            EventTime endEventTime = EventTime(&newPerson, tEnd, true);
+            *endEventTimePtr = endEventTime;
 
             vector<Person *> blockOwners;
             blockOwners.push_back(&newPerson);
-            AvailableTimeBlock newTimeBlock(blockOwners, &startEventTime, &endEventTime);
-            time_t time1 = startEventTime.getTime();
-            time_t time2 = endEventTime.getTime();
-            cout << "Starts at " << replaceChar(ctime(&time1), '\n', "") << ". Ends at "
-                 << replaceChar(ctime(&time2), '\n', "") << "." << endl;
 
-            newPerson.addTimeBlock(&newTimeBlock);
+            auto *newTimeBlockPtr = new AvailableTimeBlock;
+            AvailableTimeBlock newTimeBlock = AvailableTimeBlock(blockOwners, startEventTimePtr, endEventTimePtr);
+            *newTimeBlockPtr = newTimeBlock;
+
+            newPerson.addTimeBlock(newTimeBlockPtr);
+            allTimeBlocks.push_back(newTimeBlock);
         }
 
         people.push_back(newPerson);
     }
     cout << endl;
 
-    for (const Person &person : people)
+    for (const Person& person : people)
     {
+        cout << person.getName() << endl;
+    }
 
-        cout << person.getName() << " has " << person.getTimeBlocks().size() << " time blocks." << endl;
-        for (AvailableTimeBlock *timeBlock : person.getTimeBlocks())
+    cout << "Blocks length: " << allTimeBlocks.size() << endl;
+    vector<AvailableTimeBlock> validTimeBlocks;
+    for (int i = 0; i < allTimeBlocks.size(); i++)
+    {
+        AvailableTimeBlock timeBlock = allTimeBlocks.at(i);
+        cout << i << ": "<< timeBlock.getOwners().at(0)->getName() << endl;
+        /*
+         * Add all time blocks that overlap this time block.
+         */
+        vector<AvailableTimeBlock> overlapTimeBlocks;
+        for (AvailableTimeBlock &otherTimeBlock : allTimeBlocks)
         {
-            time_t time1 = timeBlock->getStartEvent().getTime();
-            time_t time2 = timeBlock->getEndEvent().getTime();
+            // Skip if it's the same
+            if (timeBlock.getStartEvent().getID() == otherTimeBlock.getStartEvent().getID()) continue;
 
-            // todo: this always uses the last time block. are the others deleted??
+            if (timeBlock.doesOverlap(otherTimeBlock))
+            {
+                overlapTimeBlocks.push_back(otherTimeBlock);
+            }
+        }
 
-            cout << "Starts at " << replaceChar(ctime(&time1), '\n', "") << ". Ends at "
-                 << replaceChar(ctime(&time2), '\n', "") << "." << endl;
+        if (overlapTimeBlocks.empty())
+        {
+            continue;
+        }
+
+        /*
+         * Check which people are represented in the overlapping time blocks.
+         */
+        vector<Person> overlapPeople;
+        overlapPeople.push_back(*(timeBlock.getOwners().at(0)));
+        for (const AvailableTimeBlock &overlapTimeBlock : overlapTimeBlocks)
+        {
+            bool flag = false;
+            for (const Person &overlapPerson : overlapPeople)
+            {
+                if (overlapPerson.getName() == overlapTimeBlock.getOwners().at(0)->getName())
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) continue;
+            else
+            {
+                overlapPeople.push_back(*(overlapTimeBlock.getOwners().at(0)));
+            }
+        }
+
+        cout << "Owner: " << timeBlock.getOwners().at(0)->getName() << endl;
+        cout << "Overlapping time blocks: " << overlapTimeBlocks.size() << ". People represented: "
+             << overlapPeople.size() << endl;
+
+        // If not everyone is represented, move to the next time block.
+        if (overlapPeople.size() != people.size())
+        {
+            continue;
+        }
+
+        vector<EventTime> timeline;
+        for (const AvailableTimeBlock &overlapTimeBlock : overlapTimeBlocks)
+        {
+            timeline.push_back(overlapTimeBlock.getStartEvent());
+            timeline.push_back(overlapTimeBlock.getEndEvent());
+        }
+
+        int earliestIndex = 0;
+        time_t earliestTime = timeline.at(0).getTime();
+        for (int i = 0; i < timeline.size(); i++)
+        {
+            for (int j = i; j < timeline.size(); j++)
+            {
+                if (timeline.at(j).getTime() < earliestTime)
+                {
+                    earliestIndex = j;
+                    earliestTime = timeline.at(j).getTime();
+                }
+            }
+
+            int origIndex = i;
+            EventTime origTime = timeline.at(i);
+
+            timeline.at(origIndex) = timeline.at(earliestIndex);
+            timeline.at(earliestIndex) = origTime;
+        }
+
+        for (EventTime eventTime : timeline)
+        {
+            cout << eventTime.getTime() << endl;
         }
     }
 

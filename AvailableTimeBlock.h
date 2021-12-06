@@ -17,6 +17,8 @@ private:
     EventTime *_startEvent;
     EventTime *_endEvent;
 public:
+    AvailableTimeBlock();
+
     AvailableTimeBlock(vector<Person *> owners, EventTime *startEvent, EventTime *endEvent);
 
     const vector<Person *> &getOwners() const;
@@ -36,7 +38,7 @@ public:
      *   - 12/08/21 17:30 21:00
      *  Overlap from 17:30 to 21:00, so this will return true.
     */
-    bool doesOverlap(AvailableTimeBlock otherBlock);
+    bool doesOverlap(const AvailableTimeBlock& otherBlock);
 
     /**
      *  @brief  Returns the AvailableTimeBlock where this AvailableTimeBlock overlaps with another.

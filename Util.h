@@ -2,6 +2,7 @@
 #define CSCI261_UTIL_H
 
 #include <ctime>
+#include "Person.h"
 
 using namespace std;
 
@@ -40,5 +41,14 @@ time_t stringToTime(const string &timeString);
  *  also returned for easier inline use.
 */
 string replaceChar(string inputString, const char &origChar, const string &replaceChar);
+
+/**
+ *  @brief  Print a Person's time blocks.
+ *  @param people  A vector of Persons.
+ *
+ *  Pretty simple. Figured I'd keep it around for debugging
+ *  if I ever need it later.
+*/
+void printTimeBlocks(const vector<Person> &people);
 
 #endif //CSCI261_UTIL_H
