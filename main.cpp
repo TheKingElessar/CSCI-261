@@ -64,6 +64,7 @@ int main()
     {
         vector<AvailableTimeBlock *> personTimeBlocks;
 
+        // Todo: inline pointer constructor
         auto *newPersonPtr = new Person;
         Person newPerson(name, personTimeBlocks);
         *newPersonPtr = newPerson;
