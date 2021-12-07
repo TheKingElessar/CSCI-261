@@ -10,6 +10,9 @@ class Person;
 
 class EventTime;
 
+/*
+ * AvailableTimeBlock stores start and end times and the block's owner.
+ */
 class AvailableTimeBlock
 {
 private:
@@ -23,37 +26,11 @@ public:
 
     const vector<Person *> &getOwners() const;
 
-    const EventTime &getStartEvent() const;
+    EventTime &getStartEvent();
 
-    const EventTime &getEndEvent() const;
+    EventTime &getEndEvent();
 
-    /**
-     *  @brief  Returns whether this AvailableTimeBlock overlaps with another one.
-     *  @param  otherBlock AvailableTimeBlock to test against.
-     *  @return  Whether or not the two AvailableTimeBlocks overlap.
-     *
-     *  If the two AvailableTimeBlocks both have the same period of time
-     *  in their time block, this will return true. For example:
-     *   - 12/08/21 15:00 22:30
-     *   - 12/08/21 17:30 21:00
-     *  Overlap from 17:30 to 21:00, so this will return true.
-    */
-    bool doesOverlap(const AvailableTimeBlock& otherBlock);
-
-    /**
-     *  @brief  Returns the AvailableTimeBlock where this AvailableTimeBlock overlaps with another.
-     *  @param  otherBlock AvailableTimeBlock to test against.
-     *  @return  The AvailableTimeBlock where they overlap.
-     *
-     *  If the two AvailableTimeBlocks both have the same period of time
-     *  in their time block, this will return the AvailableTimeBlock for
-     *  that block. For example:
-     *   - 12/08/21 15:00 22:30
-     *   - 12/08/21 17:30 21:00
-     *  Overlap from 17:30 to 21:00, so this will return an AvailableTimeBlock
-     *  of that block.
-    */
-    AvailableTimeBlock getOverlapBlock(AvailableTimeBlock otherBlock);
+    int getID();
 };
 
 

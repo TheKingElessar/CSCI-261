@@ -56,3 +56,41 @@ void printTimeBlocks(const vector<Person> &people)
         }
     }
 }
+
+bool vectorsContainSamePeople(const vector<Person *> &vec1, const vector<Person *> &vec2)
+{
+    bool hasEveryone = true;
+    for (Person *person : vec1)
+    {
+        bool inFlag = false;
+        for (const Person *otherPerson : vec2)
+        {
+            if (person->getName() == otherPerson->getName())
+            {
+                inFlag = true;
+                break;
+            }
+        }
+        if (inFlag) continue;
+        else
+        {
+            hasEveryone = false;
+            break;
+        }
+    }
+
+    return hasEveryone;
+}
+
+int getIndexOfPerson(const vector<Person *> &vector, Person *person)
+{
+    for (int i = 0; i < vector.size(); i++)
+    {
+        if (person == vector.at(i))
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}

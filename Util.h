@@ -6,6 +6,10 @@
 
 using namespace std;
 
+/*
+ * Utility functions
+ */
+
 /**
  *  @brief  Converts a string to a time_t object using a formatting string.
  *  @param timeString  The time string.
@@ -50,5 +54,15 @@ string replaceChar(string inputString, const char &origChar, const string &repla
  *  if I ever need it later.
 */
 void printTimeBlocks(const vector<Person> &people);
+
+struct OverlapIDs
+{
+    int id1;
+    int id2;
+};
+
+bool vectorsContainSamePeople(const vector<Person *>& vec1, const vector<Person *>& vec2);
+
+int getIndexOfPerson(const vector<Person *> &vector, Person *person);
 
 #endif //CSCI261_UTIL_H

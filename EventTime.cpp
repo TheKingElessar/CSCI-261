@@ -9,9 +9,9 @@ int EventTime::getID() const
     return _id;
 }
 
-const Person &EventTime::getOwner() const
+Person *EventTime::getOwner()
 {
-    return *_owner;
+    return _owner;
 }
 
 time_t EventTime::getTime() const

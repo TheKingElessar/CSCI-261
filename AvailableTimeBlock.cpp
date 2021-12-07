@@ -10,12 +10,16 @@ const vector<Person *> &AvailableTimeBlock::getOwners() const
     return _owners;
 }
 
-const EventTime &AvailableTimeBlock::getStartEvent() const
+// I feel like I should be returning a pointer here instead of a reference
+// to the actual object but eh whatcha gonna do I don't have time to work
+// on that :)
+// That would also mean I could make these const I guess
+EventTime &AvailableTimeBlock::getStartEvent()
 {
     return *_startEvent;
 }
 
-const EventTime &AvailableTimeBlock::getEndEvent() const
+EventTime &AvailableTimeBlock::getEndEvent()
 {
     return *_endEvent;
 }
@@ -27,17 +31,9 @@ AvailableTimeBlock::AvailableTimeBlock(vector<Person *> owners, EventTime *start
     _endEvent = endEvent;
 }
 
-bool AvailableTimeBlock::doesOverlap(const AvailableTimeBlock &otherBlock)
+int AvailableTimeBlock::getID()
 {
-    // If one starts after the other ends, they don't overlap.
-    if (this->getStartEvent().getTime() > otherBlock.getEndEvent().getTime() ||
-        otherBlock.getStartEvent().getTime() > this->getEndEvent().getTime())
-    {
-        return false;
-    }
-
-    // Otherwise, they always overlap.
-    return true;
+    return this->getStartEvent().getID();
 }
 
 AvailableTimeBlock::AvailableTimeBlock() = default;

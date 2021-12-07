@@ -7,6 +7,9 @@ using namespace std;
 
 class Person;
 
+/*
+ * EventTime stores a time, the block's owner, and whether or not the time is the ending time.
+ */
 class EventTime
 {
 private:
@@ -26,7 +29,7 @@ public:
 
     int getID() const;
 
-    const Person &getOwner() const;
+    Person *getOwner();
 
     time_t getTime() const;
 
