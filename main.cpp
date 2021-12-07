@@ -1,6 +1,9 @@
 /* CSCI 261 Final Project: Scheduling App
  *
  * Author: Nathan Panzer
+ * Skip Days Used: 0
+ * Skip Days Remaining: 5
+ * Resources used (Office Hours, Tutoring, Other Students, etc & in what capacity): None
  *
  * Have you ever tried to organize a Dungeons and Dragons session with five other people?
  * Everybody has their own busy schedules, so it’s hard to find a time that works for everyone.
